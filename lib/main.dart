@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => MyHomeRoute(title: 'GitHub Client dos Guri'),
         "/repositoriesRoute": (context) => RepositoriesRoute(),
-        "/detailsRoute": (context) => RepositoryDetailsRoute(),
+        '/detailsRoute': (context) => RepositoryDetailsRoute(),
       },
     );
   }
@@ -137,9 +137,7 @@ class RepositoriesRoute extends StatelessWidget {
     }
 
 
-    return MaterialApp(
-      title: title,
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text(title),
         ),
@@ -147,15 +145,15 @@ class RepositoriesRoute extends StatelessWidget {
             itemCount: repositoryArgs.length,
             itemBuilder: (BuildContext context, int index) => getRepositoryListItem(context, index)
         ),
-      ),
-    );
+      );
+
   }
 
   void navigateToRepositoryDetails(BuildContext context, Repository repo) {
     Navigator.pushNamed(
       context,
       RepositoryDetailsRoute.routeName,
-     // arguments: repo,
+      arguments: repo,
     );
   }
 }
