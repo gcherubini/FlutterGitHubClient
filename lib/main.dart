@@ -167,19 +167,19 @@ class RepositoryDetailsRoute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   //final Repository repositoryArgs = ModalRoute.of(context).settings.arguments;
-    final Repository repositoryArgs = Repository('title');
+    final Repository repositoryArgs = ModalRoute
+        .of(context)
+        .settings
+        .arguments;
+//    final Repository repositoryArgs = Repository('title');
     final repositoryName = repositoryArgs.title;
 
-    return MaterialApp(
-      title: repositoryName,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(repositoryName),
-        ),
-        body: Text(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(repositoryName),
+      ),
+      body: Text(
           'Details'
-        ),
       ),
     );
   }
