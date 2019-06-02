@@ -27,8 +27,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => MyHomeRoute(title: 'GitHub Client dos Guri'),
-        "/repositoriesRoute": (context) => RepositoriesRoute(),
-        "/detailsRoute": (context) => RepositoryDetailsRoute(),
+        '/repositoriesRoute': (context) => RepositoriesRoute(),
+        '/detailsRoute': (context) => RepositoryDetailsRoute(),
       },
     );
   }
@@ -137,9 +137,7 @@ class RepositoriesRoute extends StatelessWidget {
     }
 
 
-    return MaterialApp(
-      title: title,
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text(title),
         ),
@@ -147,15 +145,15 @@ class RepositoriesRoute extends StatelessWidget {
             itemCount: repositoryArgs.length,
             itemBuilder: (BuildContext context, int index) => getRepositoryListItem(context, index)
         ),
-      ),
-    );
+      );
+
   }
 
   void navigateToRepositoryDetails(BuildContext context, Repository repo) {
     Navigator.pushNamed(
       context,
       RepositoryDetailsRoute.routeName,
-     // arguments: repo,
+      arguments: repo,
     );
   }
 }
@@ -169,19 +167,18 @@ class RepositoryDetailsRoute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   //final Repository repositoryArgs = ModalRoute.of(context).settings.arguments;
-    final Repository repositoryArgs = Repository('title');
+    final Repository repositoryArgs = ModalRoute
+        .of(context)
+        .settings
+        .arguments;
     final repositoryName = repositoryArgs.title;
 
-    return MaterialApp(
-      title: repositoryName,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(repositoryName),
-        ),
-        body: Text(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(repositoryName),
+      ),
+      body: Text(
           'Details'
-        ),
       ),
     );
   }
