@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => MyHomeRoute(title: 'GitHub Client dos Guri'),
-        "/repositoriesRoute": (context) => RepositoriesRoute(),
+        '/repositoriesRoute': (context) => RepositoriesRoute(),
         '/detailsRoute': (context) => RepositoryDetailsRoute(),
       },
     );
@@ -171,7 +171,6 @@ class RepositoryDetailsRoute extends StatelessWidget {
         .of(context)
         .settings
         .arguments;
-//    final Repository repositoryArgs = Repository('title');
     final repositoryName = repositoryArgs.title;
 
     return Scaffold(
