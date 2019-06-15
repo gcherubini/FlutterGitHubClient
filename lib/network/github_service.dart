@@ -11,7 +11,7 @@ class GitHubService {
 
     if (response.statusCode == 200) {
       Iterable list = json.decode(response.body);
-      var repositories = list.map((model) => Repository.fromJson(model)).toList();
+      var repositories = list.map((dynamic model) => Repository.fromJson(model)).toList();
       return repositories;
     } else {
       return null;
