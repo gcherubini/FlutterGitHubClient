@@ -1,7 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'model/Repository.dart';
 import 'network/github_service.dart';
-import 'package:flutter/foundation.dart';
 
 /*
 * GithubClient application dos GURI
@@ -172,15 +172,20 @@ class RepositoryDetailsRoute extends StatelessWidget {
         .settings
         .arguments;
     final repositoryName = repositoryArgs.title;
+    final repositoryDetail =
+        (isValid(repositoryArgs.detail)) ? repositoryArgs.detail : 'Repository without description';
 
     return Scaffold(
       appBar: AppBar(
         title: Text(repositoryName),
       ),
       body: Text(
-          'Details'
+          repositoryDetail
       ),
     );
+  }
+  bool isValid(String details) {
+    return details != null && details.isNotEmpty;
   }
 }
 
