@@ -1,8 +1,8 @@
 class Repository {
   final String title;
-  final String detail;
+  final String description;
 
-  Repository(this.title, this.detail);
+  Repository(this.title, this.description);
 
   factory Repository.fromJson(Map<String, dynamic> json) {
     return Repository(

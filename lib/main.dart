@@ -172,20 +172,20 @@ class RepositoryDetailsRoute extends StatelessWidget {
         .settings
         .arguments;
     final repositoryName = repositoryArgs.title;
-    final repositoryDetail =
-        (isValid(repositoryArgs.detail)) ? repositoryArgs.detail : 'Repository without description';
+    final repositoryDescription =
+        (isValid(repositoryArgs.description)) ? repositoryArgs.description : 'Repository without description';
 
     return Scaffold(
       appBar: AppBar(
         title: Text(repositoryName),
       ),
       body: Text(
-          repositoryDetail
+          repositoryDescription
       ),
     );
   }
-  bool isValid(String details) {
-    return details != null && details.isNotEmpty;
+  bool isValid(String description) {
+    return description != null && description.isNotEmpty;
   }
 }
 
