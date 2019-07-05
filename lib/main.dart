@@ -54,17 +54,42 @@ class _MyHomeRouteState extends State<MyHomeRoute>{
     var future = GitHubService().fetchUserRepositories(username);
     future.then((repositories) {
       if(repositories == null) {
-        debugPrint("--> Some error happened");
+        _showingError('Error', 'User $username not found!');
       } else if (repositories.isEmpty) {
-        debugPrint("--> User does not have repositories");
+        _showingError('Warning', 'The user $username has no public repositorys!');
       } else {
-        _navigateToRepostories(repositories);
+        _navigateToRepositories(repositories);
       }
     });
   }
-
-  void _navigateToRepostories(List<Repository> repositories) {
-    debugPrint("navigateToRepositories");
+  Future<void> _showingError(String title, String description) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(description),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+  void _navigateToRepositories(List<Repository> repositories) {
+    debugPrint('navigateToRepositories');
     Navigator.pushNamed(
       context,
       RepositoriesRoute.routeName,
