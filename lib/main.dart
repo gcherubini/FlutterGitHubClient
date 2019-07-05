@@ -26,9 +26,9 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => MyHomeRoute(title: 'GitHub Client dos Guri'),
-        '/repositoriesRoute': (context) => RepositoriesRoute(),
-        '/detailsRoute': (context) => RepositoryDetailsRoute(),
+        '/': (BuildContext context) => MyHomeRoute(title: 'GitHub Client dos Guri'),
+        '/repositoriesRoute': (BuildContext context) => RepositoriesRoute(),
+        '/detailsRoute': (BuildContext context) => RepositoryDetailsRoute(),
       },
     );
   }
@@ -45,14 +45,14 @@ class MyHomeRoute extends StatefulWidget {
 
 
 class _MyHomeRouteState extends State<MyHomeRoute>{
-  String username = "";
+  String username = '';
   bool isButtonEnabled = false;
 
   void _getRepositories() {
-    debugPrint("--> GET REPOS for $username");
+    debugPrint('--> GET REPOS for $username');
 
-    var future = GitHubService().fetchUserRepositories(username);
-    future.then((repositories) {
+    final Future<List<Repository>> future = GitHubService().fetchUserRepositories(username);
+    future.then((List<Repository> repositories) {
       if(repositories == null) {
         _showingError('Error', 'User $username not found!');
       } else if (repositories.isEmpty) {
@@ -142,19 +142,19 @@ class RepositoriesRoute extends StatelessWidget {
 
   final String title;
 
-  static const routeName = '/repositoriesRoute';
+  static const String routeName = '/repositoriesRoute';
 
   @override
   Widget build(BuildContext context) {
-    final title = 'Repositories';
+    const String title = 'Repositories';
     final List<Repository> repositoryArgs = ModalRoute.of(context).settings.arguments;
-    debugPrint("--> Repositories -> $repositoryArgs");
+    debugPrint('--> Repositories -> $repositoryArgs');
 
     Widget buildBody(int index) {
-      return new Text(repositoryArgs[index].title);
+      return Text(repositoryArgs[index].title);
     }
     ListTile getRepositoryListItem(BuildContext context, int index) {
-      Repository repository = repositoryArgs[index];
+      final Repository repository = repositoryArgs[index];
 
       return ListTile(
         onTap: (){
@@ -169,7 +169,7 @@ class RepositoriesRoute extends StatelessWidget {
         appBar: AppBar(
           title: Text(title),
         ),
-        body: new ListView.builder(
+        body: ListView.builder(
             itemCount: repositoryArgs.length,
             itemBuilder: (BuildContext context, int index) => getRepositoryListItem(context, index)
         ),
@@ -189,7 +189,7 @@ class RepositoriesRoute extends StatelessWidget {
 class RepositoryDetailsRoute extends StatelessWidget {
   RepositoryDetailsRoute({Key key, this.title}) : super(key: key);
 
-  static const routeName = '/detailsRoute';
+  static const String routeName = '/detailsRoute';
 
   final String title;
 
@@ -199,8 +199,8 @@ class RepositoryDetailsRoute extends StatelessWidget {
         .of(context)
         .settings
         .arguments;
-    final repositoryName = repositoryArgs.title;
-    final repositoryDescription =
+    final String repositoryName = repositoryArgs.title;
+    final String repositoryDescription =
         (isValid(repositoryArgs.description)) ? repositoryArgs.description : 'Repository without description';
 
     return Scaffold(
