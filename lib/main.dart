@@ -114,7 +114,10 @@ class _MyHomeRouteState extends State<MyHomeRoute>{
             TextField(
               onChanged: (username) {
                 this.username = username;
-                isButtonEnabled = isValid(username);
+                setState(() {
+                  isButtonEnabled = isValid(username);
+                });
+
               },
             ),
           ],
