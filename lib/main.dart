@@ -207,8 +207,13 @@ class RepositoryDetailsRoute extends StatelessWidget {
       appBar: AppBar(
         title: Text(repositoryName),
       ),
-      body: Text(
-          repositoryDescription
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(50.0),
+          child: Text(
+            repositoryDescription, textAlign: TextAlign.center, style: TextStyle(fontSize: 23.0),
+          ),
+        ),
       ),
     );
   }
