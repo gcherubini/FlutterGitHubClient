@@ -142,11 +142,11 @@ class RepositoriesRoute extends StatelessWidget {
 
   final String title;
 
-  static const String routeName = '/repositoriesRoute';
+  static const routeName = '/repositoriesRoute';
 
   @override
   Widget build(BuildContext context) {
-    const String title = 'Repositories';
+    const title = 'Repositories';
     final List<Repository> repositoryArgs = ModalRoute.of(context).settings.arguments;
     debugPrint('--> Repositories -> $repositoryArgs');
 
@@ -189,7 +189,7 @@ class RepositoriesRoute extends StatelessWidget {
 class RepositoryDetailsRoute extends StatelessWidget {
   RepositoryDetailsRoute({Key key, this.title}) : super(key: key);
 
-  static const String routeName = '/detailsRoute';
+  static const routeName = '/detailsRoute';
 
   final String title;
 
@@ -199,8 +199,8 @@ class RepositoryDetailsRoute extends StatelessWidget {
         .of(context)
         .settings
         .arguments;
-    final String repositoryName = repositoryArgs.title;
-    final String repositoryDescription =
+    final repositoryName = repositoryArgs.title;
+    final repositoryDescription =
         (isValid(repositoryArgs.description)) ? repositoryArgs.description : 'Repository without description';
 
     return Scaffold(
