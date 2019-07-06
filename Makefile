@@ -1,0 +1,2 @@
+code-format:
+		flutter format .
