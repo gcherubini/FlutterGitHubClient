@@ -16,7 +16,6 @@ import 'network/github_service.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -43,8 +42,7 @@ class MyHomeRoute extends StatefulWidget {
   _MyHomeRouteState createState() => _MyHomeRouteState();
 }
 
-
-class _MyHomeRouteState extends State<MyHomeRoute>{
+class _MyHomeRouteState extends State<MyHomeRoute> {
   String username = "";
   bool isButtonEnabled = false;
 
@@ -53,7 +51,7 @@ class _MyHomeRouteState extends State<MyHomeRoute>{
 
     var future = GitHubService().fetchUserRepositories(username);
     future.then((repositories) {
-      if(repositories == null) {
+      if (repositories == null) {
         debugPrint("--> Some error happened");
       } else if (repositories.isEmpty) {
         debugPrint("--> User does not have repositories");
@@ -76,7 +74,6 @@ class _MyHomeRouteState extends State<MyHomeRoute>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
         title: Text(widget.title),
       ),
       body: Center(
@@ -119,34 +116,34 @@ class RepositoriesRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final title = 'Repositories';
-    final List<Repository> repositoryArgs = ModalRoute.of(context).settings.arguments;
+    final List<Repository> repositoryArgs =
+        ModalRoute.of(context).settings.arguments;
     debugPrint("--> Repositories -> $repositoryArgs");
 
     Widget buildBody(int index) {
       return new Text(repositoryArgs[index].title);
     }
+
     ListTile getRepositoryListItem(BuildContext context, int index) {
       Repository repository = repositoryArgs[index];
 
       return ListTile(
-        onTap: (){
+        onTap: () {
           navigateToRepositoryDetails(context, repository);
         },
         title: Text(repository.title),
       );
     }
 
-
     return Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-        ),
-        body: new ListView.builder(
-            itemCount: repositoryArgs.length,
-            itemBuilder: (BuildContext context, int index) => getRepositoryListItem(context, index)
-        ),
-      );
-
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: new ListView.builder(
+          itemCount: repositoryArgs.length,
+          itemBuilder: (BuildContext context, int index) =>
+              getRepositoryListItem(context, index)),
+    );
   }
 
   void navigateToRepositoryDetails(BuildContext context, Repository repo) {
@@ -167,25 +164,21 @@ class RepositoryDetailsRoute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Repository repositoryArgs = ModalRoute
-        .of(context)
-        .settings
-        .arguments;
+    final Repository repositoryArgs = ModalRoute.of(context).settings.arguments;
     final repositoryName = repositoryArgs.title;
-    final repositoryDescription =
-        (isValid(repositoryArgs.description)) ? repositoryArgs.description : 'Repository without description';
+    final repositoryDescription = (isValid(repositoryArgs.description))
+        ? repositoryArgs.description
+        : 'Repository without description';
 
     return Scaffold(
       appBar: AppBar(
         title: Text(repositoryName),
       ),
-      body: Text(
-          repositoryDescription
-      ),
+      body: Text(repositoryDescription),
     );
   }
+
   bool isValid(String description) {
     return description != null && description.isNotEmpty;
   }
 }
-
