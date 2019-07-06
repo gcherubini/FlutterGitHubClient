@@ -26,9 +26,9 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => MyHomeRoute(title: 'GitHub Client dos Guri'),
-        '/repositoriesRoute': (context) => RepositoriesRoute(),
-        '/detailsRoute': (context) => RepositoryDetailsRoute(),
+        '/': (BuildContext context) => MyHomeRoute(title: 'GitHub Client dos Guri'),
+        '/repositoriesRoute': (BuildContext context) => RepositoriesRoute(),
+        '/detailsRoute': (BuildContext context) => RepositoryDetailsRoute(),
       },
     );
   }
@@ -45,26 +45,51 @@ class MyHomeRoute extends StatefulWidget {
 
 
 class _MyHomeRouteState extends State<MyHomeRoute>{
-  String username = "";
+  String username = '';
   bool isButtonEnabled = false;
 
   void _getRepositories() {
-    debugPrint("--> GET REPOS for $username");
+    debugPrint('--> GET REPOS for $username');
 
-    var future = GitHubService().fetchUserRepositories(username);
-    future.then((repositories) {
+    final Future<List<Repository>> future = GitHubService().fetchUserRepositories(username);
+    future.then((List<Repository> repositories) {
       if(repositories == null) {
-        debugPrint("--> Some error happened");
+        _showingError('Error', 'User $username not found!');
       } else if (repositories.isEmpty) {
-        debugPrint("--> User does not have repositories");
+        _showingError('Warning', 'The user $username has no public repositorys!');
       } else {
-        _navigateToRepostories(repositories);
+        _navigateToRepositories(repositories);
       }
     });
   }
-
-  void _navigateToRepostories(List<Repository> repositories) {
-    debugPrint("navigateToRepositories");
+  Future<void> _showingError(String title, String description) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(description),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+  void _navigateToRepositories(List<Repository> repositories) {
+    debugPrint('navigateToRepositories');
     Navigator.pushNamed(
       context,
       RepositoriesRoute.routeName,
@@ -89,7 +114,10 @@ class _MyHomeRouteState extends State<MyHomeRoute>{
             TextField(
               onChanged: (username) {
                 this.username = username;
-                isButtonEnabled = isValid(username);
+                setState(() {
+                  isButtonEnabled = isValid(username);
+                });
+
               },
             ),
           ],
@@ -118,15 +146,15 @@ class RepositoriesRoute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final title = 'Repositories';
+    const title = 'Repositories';
     final List<Repository> repositoryArgs = ModalRoute.of(context).settings.arguments;
-    debugPrint("--> Repositories -> $repositoryArgs");
+    debugPrint('--> Repositories -> $repositoryArgs');
 
     Widget buildBody(int index) {
-      return new Text(repositoryArgs[index].title);
+      return Text(repositoryArgs[index].title);
     }
     ListTile getRepositoryListItem(BuildContext context, int index) {
-      Repository repository = repositoryArgs[index];
+      final Repository repository = repositoryArgs[index];
 
       return ListTile(
         onTap: (){
@@ -141,7 +169,7 @@ class RepositoriesRoute extends StatelessWidget {
         appBar: AppBar(
           title: Text(title),
         ),
-        body: new ListView.builder(
+        body: ListView.builder(
             itemCount: repositoryArgs.length,
             itemBuilder: (BuildContext context, int index) => getRepositoryListItem(context, index)
         ),
@@ -179,8 +207,13 @@ class RepositoryDetailsRoute extends StatelessWidget {
       appBar: AppBar(
         title: Text(repositoryName),
       ),
-      body: Text(
-          repositoryDescription
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(50.0),
+          child: Text(
+            repositoryDescription, textAlign: TextAlign.center, style: TextStyle(fontSize: 23.0),
+          ),
+        ),
       ),
     );
   }
