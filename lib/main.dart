@@ -16,7 +16,6 @@ import 'network/github_service.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -26,7 +25,8 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (BuildContext context) => MyHomeRoute(title: 'GitHub Client dos Guri'),
+        '/': (BuildContext context) =>
+            MyHomeRoute(title: 'GitHub Client dos Guri'),
         '/repositoriesRoute': (BuildContext context) => RepositoriesRoute(),
         '/detailsRoute': (BuildContext context) => RepositoryDetailsRoute(),
       },
@@ -43,25 +43,27 @@ class MyHomeRoute extends StatefulWidget {
   _MyHomeRouteState createState() => _MyHomeRouteState();
 }
 
-
-class _MyHomeRouteState extends State<MyHomeRoute>{
+class _MyHomeRouteState extends State<MyHomeRoute> {
   String username = '';
   bool isButtonEnabled = false;
 
   void _getRepositories() {
     debugPrint('--> GET REPOS for $username');
 
-    final Future<List<Repository>> future = GitHubService().fetchUserRepositories(username);
+    final Future<List<Repository>> future =
+        GitHubService().fetchUserRepositories(username);
     future.then((List<Repository> repositories) {
-      if(repositories == null) {
+      if (repositories == null) {
         _showingError('Error', 'User $username not found!');
       } else if (repositories.isEmpty) {
-        _showingError('Warning', 'The user $username has no public repositorys!');
+        _showingError(
+            'Warning', 'The user $username has no public repositorys!');
       } else {
         _navigateToRepositories(repositories);
       }
     });
   }
+
   Future<void> _showingError(String title, String description) async {
     return showDialog<void>(
       context: context,
@@ -88,6 +90,7 @@ class _MyHomeRouteState extends State<MyHomeRoute>{
       },
     );
   }
+
   void _navigateToRepositories(List<Repository> repositories) {
     debugPrint('navigateToRepositories');
     Navigator.pushNamed(
@@ -101,7 +104,6 @@ class _MyHomeRouteState extends State<MyHomeRoute>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
         title: Text(widget.title),
       ),
       body: Center(
@@ -117,7 +119,6 @@ class _MyHomeRouteState extends State<MyHomeRoute>{
                 setState(() {
                   isButtonEnabled = isValid(username);
                 });
-
               },
             ),
           ],
@@ -147,34 +148,34 @@ class RepositoriesRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const title = 'Repositories';
-    final List<Repository> repositoryArgs = ModalRoute.of(context).settings.arguments;
+    final List<Repository> repositoryArgs =
+        ModalRoute.of(context).settings.arguments;
     debugPrint('--> Repositories -> $repositoryArgs');
 
     Widget buildBody(int index) {
       return Text(repositoryArgs[index].title);
     }
+
     ListTile getRepositoryListItem(BuildContext context, int index) {
       final Repository repository = repositoryArgs[index];
 
       return ListTile(
-        onTap: (){
+        onTap: () {
           navigateToRepositoryDetails(context, repository);
         },
         title: Text(repository.title),
       );
     }
 
-
     return Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-        ),
-        body: ListView.builder(
-            itemCount: repositoryArgs.length,
-            itemBuilder: (BuildContext context, int index) => getRepositoryListItem(context, index)
-        ),
-      );
-
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: ListView.builder(
+          itemCount: repositoryArgs.length,
+          itemBuilder: (BuildContext context, int index) =>
+              getRepositoryListItem(context, index)),
+    );
   }
 
   void navigateToRepositoryDetails(BuildContext context, Repository repo) {
@@ -195,13 +196,11 @@ class RepositoryDetailsRoute extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Repository repositoryArgs = ModalRoute
-        .of(context)
-        .settings
-        .arguments;
+    final Repository repositoryArgs = ModalRoute.of(context).settings.arguments;
     final repositoryName = repositoryArgs.title;
-    final repositoryDescription =
-        (isValid(repositoryArgs.description)) ? repositoryArgs.description : 'Repository without description';
+    final repositoryDescription = (isValid(repositoryArgs.description))
+        ? repositoryArgs.description
+        : 'Repository without description';
 
     return Scaffold(
       appBar: AppBar(
@@ -211,14 +210,16 @@ class RepositoryDetailsRoute extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(50.0),
           child: Text(
-            repositoryDescription, textAlign: TextAlign.center, style: TextStyle(fontSize: 23.0),
+            repositoryDescription,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 23.0),
           ),
         ),
       ),
     );
   }
+
   bool isValid(String description) {
     return description != null && description.isNotEmpty;
   }
 }
-
