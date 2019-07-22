@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (BuildContext context) => Home(title: 'GitHub Client'),
-        '/repositoriesRoute': (BuildContext context) => Repositories(),
+        '/repositoriesRoute': (BuildContext context) => RepositoriesPage(),
         '/detailsRoute': (BuildContext context) => RepositoryDetails(),
       },
     );

@@ -29,7 +29,7 @@ class _HomeState extends State<Home> {
         _showingError(
             'Warning', 'The user $username has no public repositorys!');
       } else {
-        _navigateToRepositories(repositories);
+        _navigateToRepositories(username, repositories);
       }
     });
   }
@@ -61,12 +61,12 @@ class _HomeState extends State<Home> {
     );
   }
 
-  void _navigateToRepositories(List<Repository> repositories) {
+  void _navigateToRepositories(String userName, List<Repository> repositories) {
     debugPrint('navigateToRepositories');
     Navigator.pushNamed(
       context,
-      Repositories.routeName,
-      arguments: repositories,
+      RepositoriesPage.routeName,
+      arguments: RepositoriesPageArgs(userName, repositories),
     );
   }
 
