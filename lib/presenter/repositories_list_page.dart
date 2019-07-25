@@ -63,7 +63,8 @@ class RepositoriesPage extends StatelessWidget {
                 SizedBox(width: 20),
                 Image.network(
                   'https://avatars.githubusercontent.com/${args.userName}',
-                  scale: 4.0,
+                  width: 100.0,
+                  height: 100.0,
                 ),
                 SizedBox(width: 20),
                 Text(args.userName)
