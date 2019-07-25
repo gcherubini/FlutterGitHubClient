@@ -1,21 +1,25 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:github_client/domain/model/Repository.dart';
+import 'package:github_client/domain/model/repository.dart';
 
-class RepositoryDetails extends StatelessWidget {
-  RepositoryDetails({Key key, this.title}) : super(key: key);
+class RepositoryDetailsPage extends StatelessWidget {
+  RepositoryDetailsPage({Key key}) : super(key: key);
 
-  static const routeName = '/detailsRoute';
+  static const kRouteName = '/detailsRoute';
+  static const _kUnknownDescriptionText = 'Repository without description';
 
-  final String title;
+  bool _isDescriptionUnknown(String description) {
+    return description != null && description.isNotEmpty;
+  }
 
   @override
   Widget build(BuildContext context) {
     final Repository repositoryArgs = ModalRoute.of(context).settings.arguments;
     final repositoryName = repositoryArgs.title;
-    final repositoryDescription = (isValid(repositoryArgs.description))
-        ? repositoryArgs.description
-        : 'Repository without description';
+    final repositoryDescription =
+        (_isDescriptionUnknown(repositoryArgs.description))
+            ? repositoryArgs.description
+            : _kUnknownDescriptionText;
 
     return Scaffold(
       appBar: AppBar(
@@ -32,9 +36,5 @@ class RepositoryDetails extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  bool isValid(String description) {
-    return description != null && description.isNotEmpty;
   }
 }

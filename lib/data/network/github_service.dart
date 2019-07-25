@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:github_client/domain/model/Repository.dart';
+import 'package:github_client/domain/model/repository.dart';
 import 'package:http/http.dart';
 
 class GitHubService {

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:github_client/presenter/repositories_list.dart';
-import 'package:github_client/presenter/repository_details.dart';
-import 'package:github_client/presenter/home.dart';
+import 'package:github_client/presenter/repositories_list_page.dart';
+import 'package:github_client/presenter/repository_details_page.dart';
+import 'package:github_client/presenter/home_page.dart';
 
 /*
 * GithubClient application
 * First screen: Input Github username
-* Second screen: Show user repositories_list.dart inside a list
+* Second screen: Show user repositories_list_page.dart inside a list
 * Third screen: Show repository details
 * */
 void main() => runApp(MyApp());
@@ -21,9 +21,9 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (BuildContext context) => Home(title: 'GitHub Client'),
+        '/': (BuildContext context) => HomePage(),
         '/repositoriesRoute': (BuildContext context) => RepositoriesPage(),
-        '/detailsRoute': (BuildContext context) => RepositoryDetails(),
+        '/detailsRoute': (BuildContext context) => RepositoryDetailsPage(),
       },
     );
   }
